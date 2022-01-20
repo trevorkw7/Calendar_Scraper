@@ -1,0 +1,11 @@
+{
+  "name": "UCSD Calendar Extractor",
+  "action": {},
+  "manifest_version": 3,
+  "version": "0.1",
+  "description": "Extracts the list view in WebReg into a ICS file that can be imported into Google Calendar and other Calendar apps.",
+  "permissions": ["activeTab", "scripting", "downloads"],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
