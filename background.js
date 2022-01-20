@@ -15,6 +15,27 @@ function parseCalendar() {
     FI: "Final",
   };
 
+  //used to convert day codes to ICS day codes
+  const dayCodeDictionary = {
+      "Su": "SU",
+      "M": "MO",
+      "Tu": "TU",
+      "W": "WE",
+      "Th": "TH",
+      "F": "FR",
+      "Sa": "SA"
+  }      
+
+  function encodeClassDayCodesICS(classDayCodeArray) {
+    var dayCodeString = "";
+    for (var i = 0; i < classDayCodeArray.length - 1; i++) {
+      dayCodeString += dayCodeDictionary[classDayCodeArray[i]] + ",";
+    }
+    dayCodeString += dayCodeDictionary[classDayCodeArray[classDayCodeArray.length - 1]];
+
+    return dayCodeString;
+  }
+
   function addToCalendar(
     classType,
     classDayCode,
@@ -55,6 +76,11 @@ function parseCalendar() {
     // create final date object by adding day code index to first day of week
     var dateObject = new Date(today.setDate(firstDayOfWeekDate + dayCodeIndex));
 
+    if (dateObject.getTime() < new Date().getTime()) {
+        console.log("Date is in the past");
+        // if date is in the past, add a week
+        dateObject.setDate(dateObject.getDate() + 7);
+    }
     return dateObject;
   }
 
@@ -66,6 +92,8 @@ function parseCalendar() {
     return event;
   }
 
+
+  // extracts the data from html
   const table = document.getElementsByClassName("ui-jqgrid-btable")[0];
   const rows = table.getElementsByClassName(
     "ui-widget-content jqgrow ui-row-ltr wr-grid-en"
@@ -176,11 +204,12 @@ function parseCalendar() {
       var classDayCodeArray = classDayCode.split(" ");
       // console.log("class day code array" + classDayCodeArray);
 
-      // create js date objects from each day code in classDayCodeArray
-      for (var j = 0; j < classDayCodeArray.length; j++) {
         // get date object from day code for the current week
-        startDate = getDateObjectFromCode(classDayCodeArray[j]);
-        endDate = getDateObjectFromCode(classDayCodeArray[j]);
+        startDate = getDateObjectFromCode(classDayCodeArray[0]);
+        endDate = getDateObjectFromCode(classDayCodeArray[0]);
+
+        // encode reoccuring days back into classDayCode
+        classDayCode = encodeClassDayCodesICS(classDayCodeArray);
 
         // set hours and minuites for start and end date
         console.log("start hour" + startHour);
@@ -195,7 +224,7 @@ function parseCalendar() {
         // add current listing to calendar
         addToCalendar(
           classType,
-          classDayCodeArray[i],
+          classDayCode,
           classTime,
           classBuilding,
           classRoomCode,
@@ -203,13 +232,21 @@ function parseCalendar() {
           startDate,
           endDate
         );
-      }
     }
   }
   console.log(calendar);
 
   // create ics file from calendar
   // init icsString with file header
+
+  // calculate the end date for occurences
+  var biggestEndDate = new Date();
+  for (var j=0; j<calendar.length; j++) {
+    if (calendar[j].endDate > biggestEndDate) {
+        biggestEndDate = calendar[j].endDate;
+    }
+}
+  
   var icsString =
     "BEGIN:VCALENDAR\n" + 
     "PRODID:-//Google Inc//Google Calendar 70.9054//EN\n" +
@@ -223,24 +260,35 @@ function parseCalendar() {
     calendarEvent = calendar[i];
     icsString +=
       "BEGIN:VEVENT\n" +
-      "UID:" + calendarEvent.classTitle + "\n" +
+      "UID:" + Math.floor(Math.random()*90000) + 10000 + "\n" +
       "DTSTART:" +
       convertDate(calendarEvent.startDate) +
       "\n" +
       "DTEND:" +
       convertDate(calendarEvent.endDate) +
-      "\n" +
-      "SUMMARY:" +
-      calendarEvent.classTitle +
-      "\n" +
-      "DESCRIPTION:" +
-      "Located in " +
-      calendarEvent.classBuilding +
-      ", Room " +
-      calendarEvent.classRoomCode +
-      "\n" +
-      "END:VEVENT\n";
-  }
+      "\n"
+
+    // determine recurrence rule based on classDayCode and specificDate
+    if (!calendarEvent.specificDate) {
+        icsString += "RRULE:FREQ=WEEKLY;UNTIL="
+            + convertDate(biggestEndDate)       
+            + ";BYDAY="
+            + calendarEvent.classDayCode + "\n";
+     }
+
+     icsString +=
+     "SUMMARY:" +
+     calendarEvent.classTitle +
+     "\n" +
+     "DESCRIPTION:" +
+     "Located in " +
+     calendarEvent.classBuilding +
+     ", Room " +
+     calendarEvent.classRoomCode +
+     "\n" +
+     "END:VEVENT\n";
+
+}
 
   // add icsString ending
   icsString += "END:VCALENDAR";
