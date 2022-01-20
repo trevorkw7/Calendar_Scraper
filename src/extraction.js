@@ -1,11 +1,11 @@
 // stores the calendar data in objects
-const calendar = [];
+var calendar = [];
 
 // stores the string to be written to the ics file
 var icsFile = null;
 
 // used to convert type codes to names
-const eventTypeCode = {
+var eventTypeCode = {
     LE: "Lecture",
     DI: "Discussion",
     LA: "Lab",
@@ -15,7 +15,7 @@ const eventTypeCode = {
 };
 
 //used to convert day codes to ICS day codes
-const dayCodeDictionary = {
+var dayCodeDictionary = {
     "Su": "SU",
     "M": "MO",
     "Tu": "TU",
@@ -65,9 +65,9 @@ function addToCalendar(
 // for the specified day in the current week
 function getDateObjectFromCode(classDayCode) {
     //console.log("Class day code" + classDayCode);
-    const dayCodes = ["Su", "M", "Tu", "W", "Th", "F", "Sa"];
+    var dayCodes = ["Su", "M", "Tu", "W", "Th", "F", "Sa"];
     // index for day of week based on day code
-    const dayCodeIndex = dayCodes.indexOf(classDayCode);
+    var dayCodeIndex = dayCodes.indexOf(classDayCode);
     // get current date
     var today = new Date();
     // get the first day of this week
@@ -93,8 +93,8 @@ function convertDate(date) {
 
 
 // extracts the data from html
-const table = document.getElementsByClassName("ui-jqgrid-btable")[0];
-const rows = table.getElementsByClassName(
+var table = document.getElementsByClassName("ui-jqgrid-btable")[0];
+var rows = table.getElementsByClassName(
     "ui-widget-content jqgrow ui-row-ltr wr-grid-en"
 );
 
@@ -308,6 +308,7 @@ var saveData = (function () {
 })();
 
 saveData(icsString, "calendar.ics");
+
 // // create link to ics file
 // let doc = URL.createObjectURL( new Blob ([icsString], {type: "text/plain"}) );
 // chrome.downloads.download({ url: doc, filename: filename, conflictAction: 'overwrite', saveAs: true });
