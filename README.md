@@ -1,3 +1,4 @@
+
 # UCSD Calendar Extractor
 
 <img src="https://github.com/trevorkw7/UCSD-Calendar-Extractor/blob/master/src/images/128x128.png?raw=true" align="right"
@@ -11,7 +12,7 @@ their schedule and encoding the data into an ICS file format.
 
 ### Chrome Web Store
 
-I'm planning to publish this extension to the webstore in the upcomming weeks.
+I'm planning to publish this extension to the webstore in the upcoming weeks.
 This section will be updated with the link to the webstore listing for 1-click installation.
 
 <details><summary><b>Sideload Instructions</b></summary>
@@ -54,7 +55,7 @@ This section will be updated with the link to the webstore listing for 1-click i
 2. Dates are parsed from each event and type codes are converted to 
    full text names using a dictionary. Extracted days of the week
    codes are converted to the format appropriate for ICS.
-3. An ICS file is created with each event. If the event is reoccuring,
+3. An ICS file is created with each event. If the event is reoccurring,
    ICS rules are set for the days they reoccur based on the extracted 
    days of the week the event occurs. These events are set to reoccur until
    the end of the quarter which is determined based on the date of the
