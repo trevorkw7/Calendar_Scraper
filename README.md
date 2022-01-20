@@ -22,10 +22,7 @@ This section will be updated with the link to the webstore listing for 1-click i
 2. Ensure the developer mode toggle is on.
 
 
-3. Clone / Download this repository
-
-    ```git clone https://github.com/trevorkw7/UCSD-Calendar-Extractor.git
-    ```
+3. Clone / Download this repository: `git clone https://github.com/trevorkw7/UCSD-Calendar-Extractor.git`
 
 4. Click the `load unpacked` button in the extensions page of Google Chrome.
 
