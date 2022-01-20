@@ -36,11 +36,17 @@ This section will be updated with the link to the webstore listing for 1-click i
 </details>
 
 ## Usage
-1. Head to https://act.ucsd.edu/webreg2 and login with your UCSD account.
-2. Select the quarter you want to extract your class schedule from.
-3. You should now see a list of your classes in the list view on this page. Click the Extract Calendar.ics button on the extension.
-4. Select where you want to download the Calendar.ics file to. 
+<p align="center">
+<img src="https://raw.githubusercontent.com/trevorkw7/UCSD-Calendar-Extractor/master/src/images/extension-screenshot.png" align="right"
+     alt="Logo" width="140" height="174">
+</p>
+1. Head to https://act.ucsd.edu/webreg2 and login with your UCSD account. <br/>
+2. Select the quarter you want to extract your class schedule from.<br/>
+3. You should now see a list of your classes in the list view on this page. Click the Extract Calendar.ics button on the extension.<br/>
+4. Select where you want to download the Calendar.ics file to. <br/>
 5. Congrats! You now have an ics file that can be imported to pretty much any calendar application or website containing your entire class schedule from WebReg. Go Tritons!
+
+
 
 ## How It Works
 
